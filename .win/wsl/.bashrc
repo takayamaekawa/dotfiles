@@ -143,5 +143,21 @@ nvim() {
     socat UNIX-LISTEN:/tmp/discord-ipc-0,fork EXEC:"npiperelay.exe //./pipe/discord-ipc-0" &
   fi
 
+  # socatプロセスがまだ起動していない場合のみ、以下の処理を検討する
+  if ! pidof socat >/dev/null 2>&1; then
+    # Windows側でDiscord.exeが実行中かどうかをtasklist.exeで確認する
+    # `2>/dev/null`でエラー出力を抑制し、`grep -iq`で大文字小文字を区別せずに行を検索
+    if [ -e "//./pipe/discord-ipc-0" ]; then
+      # Discordが実行中であれば、socatを起動する
+
+      # 念のため、古いソケットファイルが残っていれば削除
+      if [ -S /tmp/discord-ipc-0 ]; then
+        rm /tmp/discord-ipc-0
+      fi
+      # WSLのUNIXソケットとWindowsの名前付きパイプを中継するためにsocatをバックグラウンドで起動
+      socat UNIX-LISTEN:/tmp/discord-ipc-0,fork EXEC:"npiperelay.exe //./pipe/discord-ipc-0" &
+    fi
+  fi
+
   command nvim "$@"
 }
