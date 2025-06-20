@@ -161,3 +161,7 @@ nvim() {
 
   command nvim "$@"
 }
+
+if command -v win32yank.exe &>/dev/null; then
+  alias wl-copy="win32yank.exe -i"
+fi
