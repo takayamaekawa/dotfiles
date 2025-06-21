@@ -7,39 +7,47 @@ NEW_PLUGIN_DIR="${NEW_PLUGIN_DIR}"
 
 declare -A JAR_FILES=(
   ## means its plugin is disabled now cuz error occurs or somehing when updating
-  # spigot
-  # ["grimac-2.3.70.jar"]=""
+  ## '# -1' means disabled plugin
+  ## '# 1' means plugins that have been frequently updated and need to be replaced
 
-  # ["AuxProtect-1.3.3.jar"]=""
-  ## ["GSit-2.3.0.jar"]=""
-  # ["LuckPerms-Velocity-5.4.158.jar"]="" # 1
-  # ["Bolt-1.1.52.jar"]=""
-  ## ["worldedit-bukkit-7.3.11.jar"]=""
+  # spigot
+  # ["GSit-2.4.0.jar"]=""             # 1
+  # ["LuckPerms-Bukkit-5.5.8.jar"]="" # 1
+
+  # ["multiverse-core-5.0.2.jar"]=""
+  # ["multiverse-inventories-5.0.2.jar"]=""
+  # ["multiverse-netherportals-5.0.2.jar"]=""
+  # ["multiverse-portals-5.0.3.jar"]=""
 
   # ["ChestSort-14.2.0.jar"]=""
-  # ["GravesX-4.9.7.3.jar"]=""
-  # ["multiverse-core-4.3.16.jar"]="" # 1
-  # ["multiverse-inventories-4.2.8.jar"]="" # 1
-  # ["multiverse-netherportals-4.2.3.jar"]=""
-  # ["multiverse-portals-4.2.3.jar"]=""
   # ["PlaceholderAPI-2.11.6.jar"]=""
+
+  # latest server
   # ["UltimateInventory-1.5.jar"]=""
-  # ["ebackup-1.3.1.jar"]=""
+
+  # ["grimac-2.3.70.jar"]="" # -1
+  # ["AuxProtect-1.3.3.jar"]="" # -1
+  # ["ebackup-1.3.1.jar"]="" # -1
+  # ["Bolt-1.1.52.jar"]="" # -1
+  # ["GravesX-4.9.7.3.jar"]="" # -1
+  # ["worldedit-bukkit-7.3.11.jar"]="" # -1
 
   # velocity
   # 要確認: Geyser, FloodGate
-  ["floodgate-velocity.jar"]="floodgate-velocity.jar" # 1
-  ["Geyser-Velocity.jar"]="Geyser-Velocity.jar"       # 1
+  # ["floodgate-velocity.jar"]="floodgate-velocity.jar" # 1
+  # ["Geyser-Velocity.jar"]="Geyser-Velocity.jar"       # 1
 
-  ["LuckPerms-Velocity-5.4.164.jar"]="" # 1
-  ["spark-1.10.136-velocity.jar"]=""    # 1
+  # ["LuckPerms-Velocity-5.5.8.jar"]="" # 1
+  # ["spark-1.10.139-velocity.jar"]=""  # 1
 
-  # ["UltimateAntibot-velocity-4.1.2-ABYSS.jar"]=""
+  # ["ViaVersion-5.4.0.jar"]=""
+  # ["ViaRewind-4.0.8.jar"]="" # 1
+  # ["ViaBackwards-5.4.0.jar"]=""
+  # ["Velocitab-1.7.7.jar"]="" # 1
+  # ["voicechat-velocity-2.5.30.jar"]=""
+
   # ["minimotd-velocity-2.1.6.jar"]=""
-  # ["ViaVersion-5.3.2.jar"]=""
-  # ["ViaRewind-4.0.7.jar"]="" # 1
-  # ["ViaBackwards-5.3.2.jar"]=""
-  # ["Velocittab-1.7.6.jar"]="" # 1
+  # ["UltimateAntibot-velocity-4.1.2-ABYSS.jar"]=""
 )
 
 find "$TARGET_DIR" -type d -name "plugins" | while read PLUGINS_DIR; do
