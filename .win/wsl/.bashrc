@@ -137,6 +137,8 @@ nvim() {
     export_to_dynamic_bashrc
   fi
 
+  # reference: https://github.com/vyfor/cord.nvim/wiki/Troubleshooting#-running-inside-wsl
+  # reference: https://gist.github.com/mousebyte/af45cbecaf0028ea78d0c882c477644a#aliasing-nvim
   if ! pidof socat >/dev/null 2>&1; then
     [ -e /tmp/discord-ipc-0 ] && rm -f /tmp/discord-ipc-0
     socat UNIX-LISTEN:/tmp/discord-ipc-0,fork \
