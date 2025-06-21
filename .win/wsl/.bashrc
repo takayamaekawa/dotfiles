@@ -61,23 +61,24 @@ nvim() {
     fi
 
     # discordを自動起動するかどうかを尋ねる。
-    read -p "Do you want to enable Discord to start automatically? (y/n): " answer
-    if [[ "$answer" == [Yy] ]]; then
-      mkdir -p ~/.config/systemd/user
-      if [ -n "$WSL_DISTRO_NAME" ]; then
-        if [ "$WSL_DISTRO_NAME" = "Ubuntu" ]; then
-          cp ~/.win/wsl/distro/ubuntu/services/user/discord.service ~/.config/systemd/user/
-        else
-          cp ~/.win/wsl/distro/arch/services/user/discord.service ~/.config/systemd/user/
-        fi
-      else
-        echo "WSL_DISTRO_NAME is not set. Please ensure you are running this script in WSL."
-        return 1
-      fi
+    # WSL環境では、ホストOSであるWindowsで起動しているDiscordを利用するため、WSL内での自動起動は不要。
+    # read -p "Do you want to enable Discord to start automatically? (y/n): " answer
+    # if [[ "$answer" == [Yy] ]]; then
+    #   mkdir -p ~/.config/systemd/user
+    #   if [ -n "$WSL_DISTRO_NAME" ]; then
+    #     if [ "$WSL_DISTRO_NAME" = "Ubuntu" ]; then
+    #       cp ~/.win/wsl/distro/ubuntu/services/user/discord.service ~/.config/systemd/user/
+    #     else
+    #       cp ~/.win/wsl/distro/arch/services/user/discord.service ~/.config/systemd/user/
+    #     fi
+    #   else
+    #     echo "WSL_DISTRO_NAME is not set. Please ensure you are running this script in WSL."
+    #     return 1
+    #   fi
 
-      systemctl --user daemon-reload
-      systemctl --user enable --now discord.service
-    fi
+    #   systemctl --user daemon-reload
+    #   systemctl --user enable --now discord.service
+    # fi
 
     # もし、socatというコマンドが存在しなければ、Do you want to install it?と英語でプロンプトを出し、y/nでインストールする
     if ! command -v socat >/dev/null 2>&1; then
