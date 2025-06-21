@@ -97,7 +97,7 @@ nvim() {
       fi
 
       # もし、npirelay.exeが存在しなければ、Do you want to install it?と英語でプロンプトを出し、y/nでインストールする。インストール元は、https://github.com/jstarks/npiperelay/releases/download/v0.1.0/npiperelay_windows_386.zip とし、それをunzipで解凍し、中には、LICENSE、README.md、npiperelay.exeがあるので、npirelay.exeのみを~/.global/binへコピーする。なお、解凍にあたり、UUIDより一時ディレクトリを作成し、そこに解凍するとよいかも。終わったら、その一時ディレクトリは削除すればよい。
-      if ! command -v npiperelay.exe >/dev/null 2>&1; then
+      if ! which npiperelay.exe >/dev/null 2>&1; then
         read -p "npiperelay.exe is not installed. Do you want to install it? (y/n): " answer
         if [[ "$answer" == [Yy] ]]; then
           temp_dir=$(mktemp -d)
@@ -138,26 +138,9 @@ nvim() {
   fi
 
   if ! pidof socat >/dev/null 2>&1; then
-    if [ -S /tmp/discord-ipc-0 ]; then
-      rm /tmp/discord-ipc-0
-    fi
-    socat UNIX-LISTEN:/tmp/discord-ipc-0,fork EXEC:"npiperelay.exe //./pipe/discord-ipc-0" &
-  fi
-
-  # socatプロセスがまだ起動していない場合のみ、以下の処理を検討する
-  if ! pidof socat >/dev/null 2>&1; then
-    # Windows側でDiscord.exeが実行中かどうかをtasklist.exeで確認する
-    # `2>/dev/null`でエラー出力を抑制し、`grep -iq`で大文字小文字を区別せずに行を検索
-    if [ -e "//./pipe/discord-ipc-0" ]; then
-      # Discordが実行中であれば、socatを起動する
-
-      # 念のため、古いソケットファイルが残っていれば削除
-      if [ -S /tmp/discord-ipc-0 ]; then
-        rm /tmp/discord-ipc-0
-      fi
-      # WSLのUNIXソケットとWindowsの名前付きパイプを中継するためにsocatをバックグラウンドで起動
-      socat UNIX-LISTEN:/tmp/discord-ipc-0,fork EXEC:"npiperelay.exe //./pipe/discord-ipc-0" &
-    fi
+    [ -e /tmp/discord-ipc-0 ] && rm -f /tmp/discord-ipc-0
+    socat UNIX-LISTEN:/tmp/discord-ipc-0,fork \
+      EXEC:"npiperelay.exe //./pipe/discord-ipc-0" 2>/dev/null &
   fi
 
   command nvim "$@"
