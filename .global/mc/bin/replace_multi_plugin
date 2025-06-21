@@ -39,7 +39,7 @@ declare -A JAR_FILES=(
   # ["ViaVersion-5.3.2.jar"]=""
   # ["ViaRewind-4.0.7.jar"]="" # 1
   # ["ViaBackwards-5.3.2.jar"]=""
-  # ["Velocittab-1.7.5.jar"]="" # 1
+  # ["Velocittab-1.7.6.jar"]="" # 1
 )
 
 find "$TARGET_DIR" -type d -name "plugins" | while read PLUGINS_DIR; do
