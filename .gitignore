@@ -40,3 +40,7 @@
 !Makefile
 
 .work/logo/misaki_gothic_2nd.ttf
+
+!.claude/
+!.claude/commands/
+!.claude/commands/**/*
