@@ -11,7 +11,7 @@ declare -A JAR_FILES=(
   ## '# 1' means plugins that have been frequently updated and need to be replaced
 
   # spigot
-  # ["GSit-2.4.0.jar"]=""             # 1
+  ["GSit-2.4.1.jar"]="" # 1
   # ["LuckPerms-Bukkit-5.5.8.jar"]="" # 1
 
   # ["multiverse-core-5.0.2.jar"]=""
