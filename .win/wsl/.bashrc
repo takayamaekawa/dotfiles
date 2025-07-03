@@ -151,3 +151,7 @@ nvim() {
 if command -v win32yank.exe &>/dev/null; then
   alias wl-copy="win32yank.exe -i"
 fi
+
+if [ -d "$HOME/.win/wsl/bin" ]; then
+  export PATH="$PATH:$HOME/.win/wsl/bin"
+fi
