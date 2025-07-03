@@ -1,0 +1,100 @@
+#!/bin/bash
+
+# 設定
+WINDOWS_VAULT="/mnt/c/Users/$USER/Documents/ObsidianVault"
+WSL_REPO="$HOME/vaults"
+LOG_FILE="$HOME/obsidian-sync.log"
+
+# ログ関数
+log() {
+  echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
+}
+
+# 初期化
+log "Starting Obsidian sync service"
+log "Monitoring: $WINDOWS_VAULT"
+log "Target: $WSL_REPO"
+
+# WSL_REPOディレクトリが存在しない場合は作成
+if [ ! -d "$WSL_REPO" ]; then
+  log "Creating WSL repository directory: $WSL_REPO"
+  mkdir -p "$WSL_REPO"
+  # cd "$WSL_REPO"
+  # git init
+  # log "Initialized git repository"
+fi
+
+# WindowsVaultが存在するかチェック
+if [ ! -d "$WINDOWS_VAULT" ]; then
+  log "ERROR: Windows vault not found: $WINDOWS_VAULT"
+  exit 1
+fi
+
+# 初回同期
+log "Performing initial sync"
+rsync -av --delete "$WINDOWS_VAULT/" "$WSL_REPO/"
+
+# cd "$WSL_REPO"
+# if [ -n "$(git status --porcelain)" ]; then
+#     git add .
+#     git commit -m "Initial sync: $(date '+%Y-%m-%d %H:%M:%S')"
+#     log "Initial sync committed"
+# fi
+
+# バッチング用の変数
+BATCH_INTERVAL=300 # 5分間隔でコミット
+LAST_SYNC=0
+CHANGES_PENDING=false
+
+# バックグラウンドでの定期コミット処理
+commit_changes() {
+  while true; do
+    sleep $BATCH_INTERVAL
+
+    if [ "$CHANGES_PENDING" = true ]; then
+      log "Performing scheduled sync and commit"
+
+      # 同期実行
+      rsync -av --delete "$WINDOWS_VAULT/" "$WSL_REPO/" 2>&1 | while read line; do
+        log "rsync: $line"
+      done
+
+      cd "$WSL_REPO"
+      if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+        # Git操作（現在コメントアウト - 後で有効化予定）
+        # git add .
+        # git commit -m "Batch sync: $(date '+%Y-%m-%d %H:%M:%S')"
+        #
+        # # リモートにプッシュ（リモートが設定されている場合）
+        # if git remote | grep -q origin; then
+        #     git push origin main 2>&1 | while read line; do
+        #         log "git push: $line"
+        #     done
+        # fi
+        #
+        # log "Batched changes committed and pushed"
+        log "Changes detected (git operations disabled)"
+      fi
+
+      CHANGES_PENDING=false
+    fi
+  done
+}
+
+# バックグラウンドでコミット処理を開始
+commit_changes &
+COMMIT_PID=$!
+
+# inotifywaitで監視開始（コミットはしない、フラグのみ設定）
+log "Starting file system monitoring (batch mode: ${BATCH_INTERVAL}s intervals)"
+inotifywait -m -r -e modify,create,delete,move "$WINDOWS_VAULT" --format '%w%f %e' |
+  while read file event; do
+    log "Detected $event on $(basename "$file")"
+    CHANGES_PENDING=true
+
+    # 即座に同期はするが、コミットは定期実行に任せる
+    rsync -av --delete "$WINDOWS_VAULT/" "$WSL_REPO/" >/dev/null 2>&1
+  done
+
+# 終了時にバックグラウンドプロセスを停止
+trap "kill $COMMIT_PID 2>/dev/null" EXIT

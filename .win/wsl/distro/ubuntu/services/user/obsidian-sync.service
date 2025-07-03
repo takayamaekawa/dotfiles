@@ -1,0 +1,27 @@
+[Unit]
+Description=Obsidian Vault Auto Sync Service
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/obsidian-sync
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+# 環境変数
+Environment=HOME=/home/%i
+Environment=USER=%i
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+
+# ワーキングディレクトリ
+WorkingDirectory=/home/%i
+
+# プロセスの制限
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target
