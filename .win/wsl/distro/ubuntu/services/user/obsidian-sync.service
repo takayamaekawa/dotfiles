@@ -4,19 +4,17 @@ After=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/obsidian-sync
+ExecStart=/bin/bash -c 'export USER=$(id -un); export HOME=$(getent passwd $(id -un) | cut -d: -f6); /usr/local/bin/obsidian-sync'
 Restart=always
 RestartSec=5
 StandardOutput=journal
 StandardError=journal
 
-# 環境変数
-Environment=HOME=/home/%i
-Environment=USER=%i
-Environment=PATH=/usr/local/bin:/usr/bin:/bin
+# 環境変数を明示的に設定
+Environment=PATH=/usr/local/bin:/usr/bin:/bin:/sbin
 
-# ワーキングディレクトリ
-WorkingDirectory=/home/%i
+# ワーキングディレクトリはランタイムで決定
+# WorkingDirectory=%h
 
 # プロセスの制限
 KillMode=mixed
