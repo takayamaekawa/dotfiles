@@ -18,3 +18,8 @@ if (Get-Command nvim -ErrorAction SilentlyContinue) {
   # Write-Host "Function 'n' for 'nvim ./' created."
 }
 
+# Load secret profile if it exists
+$secretProfile = Join-Path $PSScriptRoot "../.secret/Microsoft.PowerShell_profile.ps1"
+if (Test-Path $secretProfile) {
+  . $secretProfile
+}
