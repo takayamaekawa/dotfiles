@@ -44,3 +44,7 @@
 !.claude/
 !.claude/commands/
 !.claude/commands/**/*
+
+!vaults/
+!vaults/public/
+!vaults/public/**/*
