@@ -16,6 +16,7 @@
 .global/bin/npiperelay.exe
 .global/bin/rufus-4.6.exe
 .global/bin/gemini-terminal
+.global/bin/discord-chat-exporter
 
 !.w3m/
 !.w3m/bookmark.html
@@ -44,3 +45,7 @@
 !.claude/
 !.claude/commands/
 .claude/commands/**/*
+
+!py/
+!py/**/*
+py/venv/
