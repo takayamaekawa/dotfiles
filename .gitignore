@@ -45,7 +45,3 @@
 !.claude/
 !.claude/commands/
 .claude/commands/**/*
-
-!py/
-!py/**/*
-py/venv/
