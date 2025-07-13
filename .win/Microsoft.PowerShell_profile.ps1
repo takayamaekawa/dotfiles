@@ -19,8 +19,10 @@ if (Get-Command nvim -ErrorAction SilentlyContinue) {
 }
 
 # Load secret profile if it exists
-$secretProfile = Join-Path $PSScriptRoot "../.secret/Microsoft.PowerShell_profile.ps1"
-Write-Host "Loading secret profile from: $secretProfile"
-if (Test-Path $secretProfile) {
-  . $secretProfile
+if ($env:DOT_HOME) {
+  # Write-Host "Loading secret profile from: $secretProfile"
+  $dotfilesProfile = Join-Path $env:DOT_HOME ".secret/Microsoft.PowerShell_profile.ps1"
+  if (Test-Path $dotfilesProfile) {
+    . $secretProfile
+  }
 }
