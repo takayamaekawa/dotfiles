@@ -4,7 +4,7 @@ After=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/bin/bash -c 'export USER=$(id -un); export HOME=$(getent passwd $(id -un) | cut -d: -f6); /usr/local/bin/obsidian-sync'
+ExecStart=/bin/bash -c 'export HOME=$(getent passwd $(id -un) | cut -d: -f6); /usr/local/bin/obsidian-sync'
 Restart=always
 RestartSec=5
 StandardOutput=journal

@@ -1,14 +1,26 @@
 #!/bin/bash
 
-# 設定
-WINDOWS_VAULT="/mnt/c/Users/$USER/Documents/ObsidianVault"
-WSL_REPO="$HOME/vaults"
-LOG_FILE="$HOME/obsidian-sync.log"
+WSL_REPO="$HOME/obsidian"
+LOG_FILE="$HOME/.obsidian-sync.log"
 
 # ログ関数
 log() {
   echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
+
+# もし、~/.secret/.bashrcが存在する場合は、読み込む。
+if [ -f $HOME/.secret/.bashrc ]; then
+  source $HOME/.secret/.bashrc
+fi
+
+# もし、$WSL_HOST_USERが設定されていない場合は、スクリプトを停止させる。
+if [ -z "$WSL_HOST_USER" ]; then
+  log "ERROR: WSL_HOST_USER is not set. Please run this script in a Windows environment."
+  exit 1
+fi
+
+# 設定
+WINDOWS_VAULT="/mnt/c/Users/$WSL_HOST_USER/Documents/ObsidianVault"
 
 # 初期化
 log "Starting Obsidian sync service"
