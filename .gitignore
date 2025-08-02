@@ -4,10 +4,13 @@
 !README.md
 !LICENSE
 !.bashrc
+!.zshrc
+!.zprofile
 !.vimrc
 !.uim
 !.tmux.conf
 !.crontab
+!.bash_profile
 
 !.global/
 !.global/**/*
