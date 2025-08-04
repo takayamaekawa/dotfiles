@@ -104,3 +104,5 @@ export EDITOR=nvim
 if [ -f "$HOME/.dynamic_bashrc" ]; then
   source "$HOME/.dynamic_bashrc"
 fi
+
+. "$HOME/.local/bin/env"

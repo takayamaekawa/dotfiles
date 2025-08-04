@@ -85,6 +85,9 @@ fi
 if command -v lazygit &>/dev/null; then
   alias lg="lazygit"
 fi
+if command -v kitty &>/dev/null; then
+  alias icat='kitty +kitten icat'
+fi
 
 # read secret .zshrc
 if [ -f $HOME/.secret/.zshrc ]; then
@@ -101,3 +104,5 @@ fi
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/tk/.sdkman"
 [[ -s "/Users/tk/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/tk/.sdkman/bin/sdkman-init.sh"
+
+. "$HOME/.local/bin/env"
