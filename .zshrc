@@ -106,3 +106,8 @@ export SDKMAN_DIR="/Users/tk/.sdkman"
 [[ -s "/Users/tk/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/tk/.sdkman/bin/sdkman-init.sh"
 
 . "$HOME/.local/bin/env"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/tk/.lmstudio/bin"
+# End of LM Studio CLI section
+

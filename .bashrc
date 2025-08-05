@@ -106,3 +106,8 @@ if [ -f "$HOME/.dynamic_bashrc" ]; then
 fi
 
 . "$HOME/.local/bin/env"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/tk/.lmstudio/bin"
+# End of LM Studio CLI section
+
