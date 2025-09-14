@@ -111,3 +111,5 @@ export SDKMAN_DIR="/Users/tk/.sdkman"
 export PATH="$PATH:/Users/tk/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+alias curlc='curl -s -o /dev/null -w "%{http_code}\n"'
